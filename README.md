@@ -1,5 +1,4 @@
 # BD-Proyecto2024
-- [Proyecto de Base de Datos 2 - Recuperación de Texto utilizando SPIMI INDEX](#proyecto-de-base-de-datos-2---recuperación-de-texto-utilizando-spimi-index)
   - [Introducción](#introducción)
     - [Objetivo del Proyecto](#objetivo-del-proyecto)
     - [Descripción del Dominio de Datos y la Importancia de Aplicar Indexación](#descripción-del-dominio-de-datos-y-la-importancia-de-aplicar-indexación)
