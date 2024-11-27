@@ -1,7 +1,8 @@
 # BD-Proyecto2024
   - [Introducción](#introducción)
     - [Objetivo del Proyecto](#objetivo-del-proyecto)
-    - [Descripción del Dominio de Datos y la Importancia de Aplicar Indexación](#descripción-del-dominio-de-datos-y-la-importancia-de-aplicar-indexación)
+    - [Descripción del Dataset](#descripción-del-dataset)
+    - [Importancia de Aplicar Indexación](#importancia-de-aplicar-indexación)
   - [Backend: Índice Invertido](#backend-índice-invertido)
     - [Construcción del Índice Invertido en Memoria Secundaria](#construcción-del-índice-invertido-en-memoria-secundaria)
     - [Ejecución Óptima de Consultas Aplicando Similitud de Coseno](#ejecución-óptima-de-consultas-aplicando-similitud-de-coseno)
