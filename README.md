@@ -109,5 +109,6 @@ Se implementó un índice invertido en almacenamiento secundario mediante el uso
 5. Calculamos la similitud de coseno entre la consulta y cada documento relevante. Luego miltiplicamos los pesos TF-IDF del término de la consulta y la del documento, y dividiendo por el producto de las normas de los vectores del documento y la consulta.
 6. Los documentos se ordenan en función de la similitud del coseno calculada (mayor a menor).
 7. Seleccionamos los documentos de mayor similitud para formar el Top-K resultados.
-8. Se mostrará los documentos mas relevantes, incluyendo información como el nombre de la pista, el artista y la similitud del coseno. Y el tiempo total que tomó procesar la consulta.
+8. Se mostrará los documentos mas relevantes, incluyendo información como el nombre de la pista, el artista y la similitud del coseno. Además se procesará el tiempo total que tomó procesar la consulta.
 
+Así garantizaremos que las consultas esten ejecutadas de manera eficiente y que los documentos mas relevantes se recuperen y se presenten al usuario.
