@@ -73,3 +73,7 @@ El dataset se encuentra en el Kaggle(https://www.kaggle.com/datasets/imuhammad/a
 
 ### Importancia de Aplicar Indexación
 La indexación es clave para organizar grandes volúmenes de datos y mejorar la eficiencia en la recuperación de información. Permite realizar búsquedas rápidas y precisas, optimizando consultas complejas como filtrar por popularidad, género o artista. Esto es especialmente útil en sistemas con millones de registros, ya que reduce tiempos de respuesta, mejora el rendimiento y facilita análisis en tiempo real, como recomendaciones personalizadas o tendencias
+
+## Backend: Índice Invertido
+### Construcción del Índice Invertido en Memoria Secundaria
+Se implementó un índice invertido en almacenamiento secundario mediante el uso del algoritmo SPIMI (Single-Pass In-Memory Indexing). Este enfoque divide la construcción del índice en dos etapas fundamentales: primero, la construcción de bloques, y luego, la fusión de dichos bloques. En la fase de construcción de bloques, se procesan los datos de manera eficiente en memoria, creando fragmentos temporales del índice. Posteriormente, en la fase de fusión, estos bloques se combinan para generar un índice global coherente, optimizando tanto el uso de memoria como el rendimiento en la creación del índice invertido.
