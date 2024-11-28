@@ -76,4 +76,26 @@ La indexación es clave para organizar grandes volúmenes de datos y mejorar la 
 
 ## Backend: Índice Invertido
 ### Construcción del Índice Invertido en Memoria Secundaria
+![image](https://github.com/user-attachments/assets/621015f2-05ae-4c81-bd98-f80afe7d273c)
+
 Se implementó un índice invertido en almacenamiento secundario mediante el uso del algoritmo SPIMI (Single-Pass In-Memory Indexing). Este enfoque divide la construcción del índice en dos etapas fundamentales: primero, la construcción de bloques, y luego, la fusión de dichos bloques. En la fase de construcción de bloques, se procesan los datos de manera eficiente en memoria, creando fragmentos temporales del índice. Posteriormente, en la fase de fusión, estos bloques se combinan para generar un índice global coherente, optimizando tanto el uso de memoria como el rendimiento en la creación del índice invertido.
+1. **Comienzo**:
+   - Cargamos el dataset que tendrán las letras de canciones y la información adicional de los mismos.
+   - Definimos el tamaño de los bloques, el directorio temporal para almacenar los índices parciales y el archivo final donde se guardará el índice invertido completo.
+2. **Procesamiento del Texto**:
+   - Tokenización: Divide el texto en palabras individuales (tokens)
+   - Eliminacion de Stopwords: Eliminar palabras comunes que no aportann un significado significativo. También se eliminara los signos de puntuación
+   - Stemming: reduce cada palabra a su raiz, dependiendo del idioma en el que se ecuentra, español o inglés.
+3. **Procesamiento en Bloques**:
+   - Los docuemntos se procesan en bloques que tiene un tamaña predefinido.
+   - Por cada bloque, se crea un diccionario temporal donde cada palabra se asocia a una lista de documentos en los que aparece junto con su frecuencia de aparición.
+4. **Almacenamiento Temporal**:
+   - Cada bloque es guardado como un archivo temporal en el directorio designado.
+   - Los archivos temporales contineen el directorio de términos y las normas de los documentos correspondientes al bloque.
+5. **Fusión de Bloques**:
+   - Los archivos temporales se cargan y se juntan en un solo índice invertido.
+   - Utilizamos una estructura de datos de tipo heap para ordenar y combinar las listas de postings de cada término de los diferentes bloques.
+   - Las normas de los documentos se calcularán al final de todo antes de terminar de hacer el merge.
+6. **índice Final**:
+   - El índice invertido final, que tienen los términos, las listas de los documentos asociados y las normas de los documentos, se guarda en un archivo en la memoria secundaria
+   
