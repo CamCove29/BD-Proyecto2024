@@ -98,4 +98,16 @@ Se implementó un índice invertido en almacenamiento secundario mediante el uso
    - Las normas de los documentos se calcularán al final de todo antes de terminar de hacer el merge.
 6. **índice Final**:
    - El índice invertido final, que tienen los términos, las listas de los documentos asociados y las normas de los documentos, se guarda en un archivo en la memoria secundaria
-   
+
+### Ejecución Óptima de Consultas Aplicando Similitud de Coseno
+1. La consulta ingresada por el usuario se tokeniza, se eliminan los atopwprds y se aplica stemming, siguiendo el mismo proceso que para los documentos.
+2. Se calcula el peso TF-IDF para cada término de la consulta.
+   - TF (Term Frequency): es la frecuencia del término de la consulta
+   - IDF(Inverse Document Frequency): se calcula en función de la cantidad de documentos en los que aparece el término
+3. Se calcula la norma del vector de la consulta para normalizar los pesos TF-IDF
+4. Para cada término en la consulta se busca en el pindice invertido los documentis que contienen el término
+5. Calculamos la similitud de coseno entre la consulta y cada documento relevante. Luego miltiplicamos los pesos TF-IDF del término de la consulta y la del documento, y dividiendo por el producto de las normas de los vectores del documento y la consulta.
+6. Los documentos se ordenan en función de la similitud del coseno calculada (mayor a menor).
+7. Seleccionamos los documentos de mayor similitud para formar el Top-K resultados.
+8. Se mostrará los documentos mas relevantes, incluyendo información como el nombre de la pista, el artista y la similitud del coseno. Y el tiempo total que tomó procesar la consulta.
+
