@@ -118,3 +118,80 @@ Se implementó un índice invertido en almacenamiento secundario mediante el uso
    - Se mostrará los documentos mas relevantes, incluyendo información como el nombre de la pista, el artista y la similitud del coseno. Además se procesará el tiempo total que tomó procesar la consulta.
 
 Así garantizaremos que las consultas esten ejecutadas de manera eficiente y que los documentos mas relevantes se recuperen y se presenten al usuario.
+
+### Índice Invertido en PostgresSQL
+PostgresSQL es un sistema de gestión de bases de datos relacional que ofrece funciones avanzadas para realizar búsquedas de texto completo de manera eficiente. Esto se logra usando los índces GIN(Generalized Inverted Index), posteriormente explicamos cómo se implementa un índice de busqueda optimizada en PostgreSQL y como se realiza la búsqueda de texto completo utilizando este índice:
+1. **Creación de Tabla**:
+   - Crear la tabla `songs` que almacenan las canciones con sus respectivos datos y letras.
+   - Se definen las columnas necesarias para almacenar los datos 
+   ```sql
+   DROP TABLE IF EXISTS songs;
+   CREATE TABLE songs (
+       track_id TEXT PRIMARY KEY,
+       track_name TEXT,
+       track_artist TEXT NULL,
+       track_album_name TEXT,
+       lyrics TEXT
+   );
+   ```
+2. **Carga de Datos:**:
+   - Se cargan los datos del archivo CSV a la tabla `songs`:
+   ```sql
+   COPY Public."songs" FROM 'PROYECTO-BD2/backend/csv/spotify_songs.csv' DELIMITER ',' CSV HEADER;
+   ```
+3. **Creación de Columnas para Vectores de Texto Ponderados**:
+   - Se añaden nuevas columnas `weighted_tsv` y `weighted_tsv2` a la tabla `songs` para almacenar los vectores de texto ponderados.
+
+   ```sql
+   ALTER TABLE songs ADD COLUMN weighted_tsv tsvector;
+   ALTER TABLE songs ADD COLUMN weighted_tsv2 tsvector;
+   ```
+
+4. **Actualización de Columnas con Valores Ponderados**:
+   - Se actualizan las columnas `weighted_tsv` y `weighted_tsv2` con valores ponderados usando las funciones `setweight` y `to_tsvector`. Estas funciones asignan pesos a diferentes partes del texto (por ejemplo, mayor peso a los nombres de las pistas y menor peso a las letras).
+
+   ```sql
+   UPDATE songs SET
+   weighted_tsv = x.weighted_tsv,
+   weighted_tsv2 = x.weighted_tsv
+   FROM (
+       SELECT track_id,
+       setweight(to_tsvector('english', COALESCE(track_name,'')), 'A') ||
+       setweight(to_tsvector('english', COALESCE(lyrics,'')), 'B')
+       AS weighted_tsv
+       FROM songs
+   ) AS x
+   WHERE x.track_id = songs.track_id;
+   ```
+
+5. **Creación del Índice GIN**:
+   - Se crea un índice GIN en la columna `weighted_tsv2` para optimizar las consultas de búsqueda de texto completo.
+
+   ```sql
+   CREATE INDEX weighted_tsv_idx1e3 ON songs USING GIN (weighted_tsv2);
+   ```
+
+6. **Consultas de Búsqueda de Texto Completo**:
+   - Se realizan consultas de búsqueda de texto completo utilizando el operador `@@` y la función `ts_rank_cd` para calcular la relevancia de los documentos.
+   - La consulta se ejecuta primero sin el índice para comparar el rendimiento, y luego con el índice para optimizar la búsqueda.
+
+   ```sql
+   -- Sin índice:
+   vacuum analyze;
+   EXPLAIN ANALYZE
+   SELECT track_id, track_name, ts_rank_cd(weighted_tsv, query) AS rank
+   FROM songs, to_tsquery('english', 'imagination') query
+   WHERE query @@ weighted_tsv
+   ORDER BY rank DESC
+   LIMIT 8;
+
+   -- Con índice:
+   ANALYZE songs;
+   SET enable_seqscan = OFF;
+   EXPLAIN ANALYZE
+   SELECT track_id, track_name, ts_rank_cd(weighted_tsv2, query) AS rank
+   FROM songs, to_tsquery('english', 'imagination') query
+   WHERE query @@ weighted_tsv2
+   ORDER BY rank DESC
+   LIMIT 8;
+   ```
