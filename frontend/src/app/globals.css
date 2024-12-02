@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .test {
+    border: 1px solid rgb(0, 255, 13);
+  }
+}
+@layer utilities {
+  .custom-background {
+    background-color: #ff4794; /* El color que desees */
+  }
+}
+
