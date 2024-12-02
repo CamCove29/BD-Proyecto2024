@@ -159,6 +159,7 @@ PostgresSQL es un sistema de gestión de bases de datos relacional que ofrece fu
    LIMIT 8;
    ```
 ## Frontend
-![Captura de pantalla 2024-12-02 114409](https://github.com/user-attachments/assets/b1090c1a-1ea5-40b7-8eb9-58400f0a144f)
-![Captura de pantalla 2024-12-02 114416](https://github.com/user-attachments/assets/503268d3-9e41-4f1e-8ad2-03a837cad149)
-![image](https://github.com/user-attachments/assets/5609702e-aa67-4b7d-ba3a-7e60bb38432b)
+![Captura de pantalla 2024-12-02 134802](https://github.com/user-attachments/assets/0af64b87-995a-4338-9701-74b866d71d9c)
+![Captura de pantalla 2024-12-02 134828](https://github.com/user-attachments/assets/290d2a7c-2f06-4037-a542-021f0da5d6dc)
+![Captura de pantalla 2024-12-02 135206](https://github.com/user-attachments/assets/c421d308-64da-473b-ab5b-4f1a9652721e)
+![Captura de pantalla 2024-12-02 135219](https://github.com/user-attachments/assets/3db15063-a8e2-441c-a8cd-cd0d7fed3184)
